@@ -1,0 +1,29 @@
+# Copia este archivo como configuracion.env y cambia los valores necesarios.
+# Inicio: node --env-file=configuracion.env servidor.js
+# No compartas configuracion.env ni la carpeta datos/.
+
+ENGLISH_PORT=8080
+
+# Servidor publicado: utiliza la dirección HTTPS real.
+# NODE_ENV=production
+# ENGLISH_ORIGIN=https://english.tudominio.com
+
+# Ubicación persistente privada; si se omite, se utiliza ./datos.
+# ENGLISH_DATA_DIR=/srv/english-data
+
+# Solo si utilizas un proxy inverso de confianza.
+# Debe coincidir exactamente con su IP de conexión al proceso Node.
+# El proxy debe reemplazar X-Forwarded-For por la IP real del visitante.
+# ENGLISH_PROXY_IP=127.0.0.1
+
+# WebRTC entre redes distintas: configura tu proveedor o tu servidor TURN.
+# Los dominios de abajo son ejemplos; NO son un servicio conectado.
+# ENGLISH_ICE_SERVERS='[{"urls":"stun:turn.tudominio.com:3478"}]'
+
+# Para coturn con use-auth-secret: credenciales generadas de una hora.
+# El secreto nunca se envía al navegador.
+# ENGLISH_TURN_URLS='["turn:turn.tudominio.com:3478?transport=udp","turns:turn.tudominio.com:5349?transport=tcp"]'
+# ENGLISH_TURN_SECRET=REEMPLAZAR_POR_EL_SECRETO_DE_TU_SERVIDOR_TURN
+
+# Alternativa: configuración ICE completa que proporcione tu servicio.
+# ENGLISH_ICE_SERVERS='[{"urls":"turns:turn.tudominio.com:5349","username":"REEMPLAZAR","credential":"REEMPLAZAR"}]'

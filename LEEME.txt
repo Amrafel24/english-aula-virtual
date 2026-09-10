@@ -1,0 +1,158 @@
+ENGLISH — HTML, CSS Y JAVASCRIPT PURO
+
+ABRIR LA PÁGINA
+1. Extrae todo el ZIP en una carpeta.
+2. Para materiales y juegos, abre dist/index.html con tu navegador.
+3. Para Aula virtual, instala Node 24 o posterior y ejecuta:
+   node servidor.js
+   Después abre http://localhost:8080 y entra a Aula virtual en el menú.
+No necesitas npm install para utilizar el servidor y la página.
+El aula requiere una cuenta y el servidor en ejecución.
+
+ARCHIVOS PRINCIPALES
+Los archivos de la interfaz se encuentran dentro de dist/.
+- index.html: estructura de la página y menú.
+- styles.css: diseño adaptable, 12 temas y modo claro/oscuro.
+- english-data.js: contenido educativo compartido por la página y los juegos.
+- script.js: interacciones de la página y sus secciones.
+- english-mascot.png: el personaje de English, en PNG con fondo transparente,
+  utilizado junto al nombre de la página y como icono de la pestaña.
+
+ARCHIVOS AUXILIARES
+- sw.js: mejora los avisos del sistema en navegadores compatibles, cuando
+  se sirve la página mediante HTTPS o localhost.
+- servidor.js: servidor sin paquetes de ejecución, para Aula virtual y el contador.
+- LICENCIA-ICONOS.txt: permisos y atribución de los trazados SVG de Lucide.
+
+INCLUYE
+Frase, dato interesante y ejercicio que cambian según la fecha local;
+listas para guardar palabras y exportarlas a PDF organizadas por categoría;
+26 categorías con 40 palabras cada una (1,040 en total), incluida Jobs / Empleos,
+con traducciones y pronunciación;
+guía, grammars, preguntas, lecturas, verbos, speaking,
+listening, conectores, números, prácticas y un test; rachas; recordatorios;
+notificaciones; 12 temas y cambio entre modo claro y oscuro.
+English game disponible en Easy y Match the Pairs disponible.
+Guess the image, Medium y Hard muestran
+Coming soon.
+
+AULA VIRTUAL
+En el menú principal encontrarás Aula virtual: Profesores y Estudiantes.
+En el servidor Node, crea una cuenta con nombre, correo y contraseña
+(mínimo 12 caracteres). Guarda esa contraseña.
+
+PROFESORES
+- Crea un aula con su nombre. Se genera un código de 10 caracteres.
+- Comparte el código con tus estudiantes; puedes copiarlo desde el inicio.
+- Prepara clases con texto y material de apoyo de English.
+- Guarda como borrador o publica. Solo el profesor ve los borradores.
+- Abre una clase para subir archivos (hasta 15 MB; 5 por persona y clase).
+- Ajusta la fecha y hora límite de una clase o examen.
+- Revisa entregas, califica sobre 100 y deja comentarios privados.
+- Comparte cualquiera de los 26 vocabularios para practicar con audio.
+- Crea chats grupales y foros para conversar dentro del aula.
+- Configura exámenes de 5 a 30 preguntas usando vocabularios, verbos o
+  ejercicios de gramática. Corrección en el servidor; un intento por alumno.
+- En Integrantes, consulta nombre, correo, fecha de ingreso y acceso.
+- En Configuración, habilita las áreas, cierra nuevas inscripciones o
+  cambia el código. Suspender a alguien bloquea su acceso hasta restablecerlo.
+
+ESTUDIANTES
+- Entra con tu cuenta e introduce el código del profesor una sola vez.
+- Las aulas a las que perteneces aparecen después en Mis aulas.
+- Solo aparecen las áreas y recursos publicados por el profesor.
+- Entrega actividades, adjunta archivos después de guardar tu respuesta,
+  participa en conversaciones y consulta tus notas y comentarios.
+- La fecha límite se comprueba en el servidor. Cambiar la hora del
+  dispositivo no permite entregar después del plazo.
+
+VIDEOCONFERENCIA
+El profesor inicia una sala. Cada participante pulsa Entrar y permite
+el uso de cámara y micrófono. Incluye silenciar, apagar cámara y salir.
+El profesor puede finalizarla para todo el grupo. Las sesiones finalizadas
+permanecen en el historial. Máximo 6 participantes simultáneos por sala.
+Para cámara y micrófono necesitas HTTPS o localhost.
+Sin configuración adicional, el video está preparado para una red local.
+Para redes distintas hay que configurar STUN/TURN en el servidor.
+Lee AULA-IMPLEMENTACION.md y configuracion.example.txt para los detalles.
+
+DATOS DEL AULA
+Las aulas se almacenan en el servidor, no en localStorage.
+Node crea la carpeta privada datos/ con aula.sqlite y archivos/.
+Conserva esa carpeta entre reinicios y actualizaciones. No la compartas.
+Todas las personas deben entrar a la misma dirección del servidor.
+Abrir una copia independiente no sincroniza sus datos.
+En Sites se utilizan D1, R2 y el inicio de sesión de la plataforma.
+Las dos modalidades no migran cuentas ni aulas entre sí automáticamente.
+Los archivos de las entregas solo los ve su estudiante y el profesor.
+El material general de English sigue disponible en las secciones originales;
+los permisos de cada aula se aplican al contenido de esa aula.
+
+ENGLISH GAME
+Entra en Juegos y pulsa Jugar ahora. El juego se abre en otra ventana o
+pestaña, según tu navegador. También puedes abrir english-game.html.
+Elige cualquiera de los 26 vocabularios y pulsa Empezar a correr.
+Salta con Espacio, flecha arriba, W, el botón Saltar o tocando la pista.
+Toca las palabras que pertenecen al vocabulario elegido: cambian a verde
+y emiten un sonido de acierto. Las incorrectas cambian a rojo, suenan
+distinto y añaden una X roja en la esquina superior derecha.
+Ganas al tocar 10 correctas. Pierdes al tercer strike. Dejar pasar una
+palabra no penaliza. La velocidad se mantiene constante durante la partida.
+Pausa con P, Escape o el botón Pausa. Al cambiar de ventana, el juego se
+pausa. Menú permite cambiar de vocabulario y empezar otra partida.
+El sonido se activa después de empezar y se puede silenciar.
+Medium (2 strikes) y Hard (1 strike) todavía no están disponibles.
+Archivos del juego: english-game.html, english-game.css,
+english-game-engine.js, english-game.js, english-data.js y english-mascot.png.
+Utiliza también styles.css para conservar los temas de English.
+
+MATCH THE PAIRS
+Entra en Juegos y selecciona Match the Pairs.
+El tablero contiene 4 columnas y 5 filas: 20 fichas, con 10 parejas de
+palabras en inglés y español tomadas de 10 categorías del vocabulario.
+Toca dos fichas para buscar una pareja. Revelar dos fichas consume un
+movimiento, tanto si aciertas como si fallas. Dispones de 20 movimientos.
+Ganas al encontrar las 10 parejas; pierdes al agotar los movimientos sin
+completarlas. El juego incluye sonidos, progreso, racha de parejas seguidas
+y Nueva partida para mezclar otra selección de palabras.
+Puedes volver a otras secciones y retomar la partida mientras mantengas
+la página abierta. La partida no se conserva al recargar la página.
+El código y los estilos importados están en match-pairs.js y match-pairs.css.
+
+GUARDADO
+Las listas, las rachas y los ajustes se guardan en este navegador con
+localStorage. No se sincronizan entre dispositivos. Si borras los datos
+del sitio, se perderán. Mantén la carpeta y el navegador que usas para
+estudiar: cambiar de ubicación o de origen puede separar los datos.
+Si el navegador bloquea el guardado, la página muestra un aviso.
+
+RECORDATORIOS Y AUDIO
+Mantén la página abierta para que compruebe los recordatorios cada
+30 segundos. Si la cierras, recuperará los avisos pendientes de hasta una
+semana al volver. No envía notificaciones con la página cerrada.
+El navegador puede pausar los avisos si el dispositivo está suspendido.
+Los avisos internos funcionan desde la página. Los avisos del sistema
+requieren permiso del navegador; HTTPS o localhost ofrece mayor
+compatibilidad. La pronunciación utiliza las voces inglesas del navegador.
+
+CONTADOR DE ACTIVIDAD
+Al abrir index.html directamente o usar un alojamiento solo estático,
+la barra muestra «1 local»: no es un número inventado de visitantes.
+Para contar sesiones reales de distintos dispositivos:
+1. Con Node instalado, ejecuta: node servidor.js
+2. Abre http://localhost:8080
+No se necesita npm install. Se utilizan únicamente módulos nativos.
+El servidor cuenta sesiones con una pestaña visible durante los últimos
+100 segundos y evita contar varias pestañas del mismo navegador como
+personas distintas. Para acceso remoto, sirve este JavaScript en un host
+compatible con Node; usa HTTPS para los avisos del sistema.
+
+EDITAR
+Puedes modificar los archivos en cualquier editor.
+El contenido de frases, datos, vocabularios y ejercicios está en
+english-data.js, en ENGLISH_DATA. La página y el juego utilizan esta misma
+fuente. No hay React, JSX, TypeScript ni frameworks de interfaz.
+El servidor del aula está en server/ y las migraciones de datos en drizzle/.
+Para pruebas de lógica: node --test tests/*.test.cjs
+Para construir el alojamiento Sites: npm ci y npm run build.
+Estas herramientas de desarrollo no son necesarias para ejecutar Node.

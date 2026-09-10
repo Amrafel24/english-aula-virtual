@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="English: frases y ejercicios diarios, vocabulario con audio, listas de aprendizaje, recordatorios y 12 temas.">
+  <meta name="theme-color" content="#5265dc">
+  <title>English · Aprende a tu ritmo</title>
+  <link rel="icon" type="image/png" href="english-mascot.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="match-pairs.css">
+  <link rel="stylesheet" href="aula.css">
+  <script src="english-data.js" defer></script>
+  <script src="match-pairs.js" defer></script>
+  <script src="aula-video.js" defer></script>
+  <script src="aula.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="topbar">
+    <div class="header-left">
+      <button type="button" id="menu-button" class="icon-button" data-action="menu" aria-label="Abrir o cerrar menú" aria-controls="sidebar" aria-expanded="true"><span data-icon="menu"></span></button>
+      <a class="sidebar-brand" href="#/inicio" aria-label="English, inicio"><img class="brand-mascot" src="english-mascot.png" width="56" height="56" alt="" decoding="async" fetchpriority="high"><span>English<span class="brand-dot">.</span></span></a>
+      <span class="header-sep"></span><span class="breadcrumb-label">Mi aprendizaje</span>
+    </div>
+    <div class="header-right">
+      <span id="presence" class="active-users" title="Actividad de esta página. El contador global necesita el servidor opcional."><i class="online-dot"></i><span id="presence-count">1</span><span id="presence-label" class="active-label">local</span></span>
+      <span class="header-sep"></span>
+      <span class="streak-badge" title="Completa el ejercicio diario para mantener tu racha."><span data-icon="flame"></span><span id="streak-count">0</span><span class="streak-label" id="streak-label">días de racha</span></span>
+      <button type="button" id="theme-button" class="icon-button" data-action="toggle-theme" aria-label="Activar modo oscuro"><span data-icon="moon"></span></button>
+      <button type="button" id="notifications-button" class="icon-button" data-action="notifications" aria-label="Notificaciones"><span data-icon="bell"></span><i id="notification-dot" class="notif-dot" hidden></i></button>
+    </div>
+  </header>
+  <div id="sidebar-shade" class="sidebar-shade" hidden></div>
+  <aside id="sidebar" class="sidebar" aria-label="Menú principal">
+    <nav id="main-nav" class="sidebar-scroll">
+      <div class="nav-group"><p class="nav-label">Principal</p>
+        <a class="nav-link" data-route="inicio" href="#/inicio"><span data-icon="home"></span><span>Inicio</span></a>
+        <a class="nav-link" data-route="guia" href="#/guia"><span data-icon="map"></span><span>Guía de aprendizaje</span></a>
+        <a class="nav-link" data-route="aula" href="#/aula"><span data-icon="graduation-cap"></span><span>Aula virtual</span></a>
+      </div>
+      <div class="nav-group"><p class="nav-label">Aprendizaje</p>
+        <a class="nav-link" data-route="grammars" href="#/grammars"><span data-icon="book-open"></span><span>Grammars</span></a>
+        <a class="nav-link" data-route="preguntas" href="#/preguntas"><span data-icon="message-circle"></span><span>Preguntas</span></a>
+        <a class="nav-link" data-route="lecturas" href="#/lecturas"><span data-icon="book-text"></span><span>Lecturas</span></a>
+        <a class="nav-link" data-route="verbos" href="#/verbos"><span data-icon="languages"></span><span>Verbos</span></a>
+        <a class="nav-link" data-route="vocabularios" href="#/vocabularios"><span data-icon="folder-heart"></span><span>Vocabularios</span></a>
+        <a class="nav-link" data-route="speaking" href="#/speaking"><span data-icon="mic"></span><span>Speaking</span></a>
+        <a class="nav-link" data-route="listening" href="#/listening"><span data-icon="headphones"></span><span>Listening</span></a>
+        <a class="nav-link" data-route="conectores" href="#/conectores"><span data-icon="link-2"></span><span>Conectores</span></a>
+        <a class="nav-link" data-route="numeros" href="#/numeros"><span data-icon="hash"></span><span>Números</span></a>
+        <a class="nav-link" data-route="practicas" href="#/practicas"><span data-icon="pencil-line"></span><span>Prácticas</span></a>
+        <a class="nav-link" data-route="test" href="#/test"><span data-icon="clipboard-check"></span><span>Test</span></a>
+        <a class="nav-link" data-route="juegos" href="#/juegos"><span data-icon="gamepad-2"></span><span>Juegos</span></a>
+      </div>
+    </nav>
+    <div class="side-footer"><p class="nav-label">Configuración</p><a class="nav-link" data-route="sistema" href="#/sistema"><span data-icon="settings"></span><span>Sistema</span></a><div class="side-note"><span data-icon="sparkles"></span><span>Un poquito cada día.<br>A tu ritmo, a tu manera.</span></div></div>
+  </aside>
+  <main id="contenido" class="app-main" tabindex="-1">
+    <div id="storage-warning" class="error-banner" role="alert" hidden></div>
+    <div id="view" class="content-wrap"><noscript><h1>English</h1><p>Activa JavaScript en tu navegador para utilizar las lecciones y guardar tus listas.</p></noscript></div>
+  </main>
+  <dialog id="app-dialog" class="dialog-surface" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <button type="button" class="icon-button modal-close" data-action="close-dialog" aria-label="Cerrar"><span data-icon="x"></span></button>
+    <h2 id="dialog-title"></h2><p id="dialog-description" class="help-text"></p><div id="dialog-body"></div>
+  </dialog>
+  <div id="toasts" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
+</body>
+</html>

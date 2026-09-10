@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172b55">
+  <meta name="description" content="Corre con English, salta y atrapa diez palabras del vocabulario que elegiste. Un juego para aprender inglés.">
+  <title>English game · English</title>
+  <link rel="icon" type="image/png" href="english-mascot.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="english-game.css">
+  <script src="english-data.js" defer></script>
+  <script src="english-game-engine.js" defer></script>
+  <script src="english-game.js" defer></script>
+</head>
+<body class="eg-page">
+  <main class="eg-shell">
+    <header class="eg-header">
+      <a href="index.html#/juegos" class="eg-back" aria-label="Volver a Juegos">← Juegos</a>
+      <a href="index.html#/inicio" class="eg-brand"><img src="english-mascot.png" width="40" height="40" alt=""><span>English<span class="brand-dot">.</span></span></a>
+      <span class="eg-header-label">APRENDE JUGANDO</span>
+    </header>
+    <div class="eg-title-row"><div><h1 lang="en">English game<span class="eg-easy-tag">Easy</span></h1><p>Salta y toca 10 palabras del vocabulario elegido.</p></div>
+      <div class="eg-tools"><button id="sound-button" class="eg-tool" type="button" aria-pressed="true">Sonido: activado</button><button id="pause-button" class="eg-tool" type="button" disabled>Pausa</button><button id="menu-button" class="eg-tool" type="button">Menú</button></div>
+    </div>
+    <section class="eg-arena" aria-label="English game">
+      <div class="eg-hud">
+        <div class="eg-category"><span>BUSCA PALABRAS DE</span><strong id="category-label">Casa</strong></div>
+        <div class="eg-score"><span><strong id="score-value">0</strong><span> / 10</span> aciertos</span><progress id="score-progress" value="0" max="10" aria-label="Palabras correctas de 10"></progress></div>
+        <div class="eg-strikes"><span>STRIKES</span><div id="strike-marks" role="img" aria-label="0 de 3 strikes"><i>×</i><i>×</i><i>×</i></div></div>
+      </div>
+      <div class="eg-stage" id="game-stage"><canvas id="game-canvas" width="1000" height="440" tabindex="0" aria-label="Pista del juego. Pulsa Espacio o flecha arriba para saltar, y P para pausar." aria-describedby="game-instructions">Necesitas un navegador compatible con Canvas para jugar.</canvas></div>
+      <div class="eg-arena-footer"><p id="game-feedback" role="status" aria-live="polite">Elige tu vocabulario y empieza la partida.</p><span id="game-state">Listo para jugar</span></div>
+    </section>
+    <div class="eg-controls"><div id="game-instructions"><p><kbd>Espacio</kbd> o <kbd>↑</kbd> para saltar. También puedes tocar la pista.</p><p class="eg-muted">Deja pasar las otras palabras. Solo tocar una incorrecta suma un strike.</p></div><button id="jump-button" type="button" class="eg-jump" disabled>Saltar <span aria-hidden="true">↑</span></button></div>
+    <p class="eg-note">10 aciertos para ganar · Pierdes al tercer strike · Sin límite de tiempo</p>
+    <noscript><p class="error-banner">Activa JavaScript para abrir el menú y jugar.</p></noscript>
+    <p id="game-error" role="alert" class="error-banner" hidden></p>
+  </main>
+  <dialog id="game-menu" class="eg-dialog" aria-labelledby="menu-title" aria-describedby="menu-description">
+    <div class="eg-menu-heading"><img src="english-mascot.png" width="82" height="82" alt=""><div><span class="eg-kicker">ENGLISH GAME</span><h2 id="menu-title">Prepara tu partida</h2></div></div>
+    <p id="menu-description">Elige un vocabulario. Salta hacia sus palabras y consigue 10 aciertos.</p>
+    <form id="game-options">
+      <label class="eg-field-label" for="category-select">¿Con qué vocabulario quieres jugar?</label>
+      <select id="category-select" name="category" required></select>
+      <p id="category-hint" class="eg-field-hint"></p>
+      <fieldset class="eg-difficulties"><legend>Dificultad</legend>
+        <label class="eg-mode"><input type="radio" name="difficulty" value="easy" checked><span><strong>Easy</strong><small>3 strikes</small><em>Disponible</em></span></label>
+        <label class="eg-mode eg-mode-locked"><input type="radio" name="difficulty" value="medium" disabled><span><strong>Medium</strong><small>2 strikes</small><em>Coming soon</em></span></label>
+        <label class="eg-mode eg-mode-locked"><input type="radio" name="difficulty" value="hard" disabled><span><strong>Hard</strong><small>1 strike</small><em>Coming soon</em></span></label>
+      </fieldset>
+      <div class="eg-rule-note"><span class="eg-hit-example">✓ Correcta</span><span class="eg-miss-example">× Incorrecta</span><p>Las palabras pasan en blanco. Al tocarlas, cambian de color y suena el resultado.</p></div>
+      <p id="menu-error" class="eg-form-error" role="alert" hidden></p>
+      <button id="start-button" class="eg-primary" type="submit" disabled>Cargando personaje…</button>
+      <button id="menu-resume" class="eg-secondary" type="button" hidden>Volver a mi partida</button>
+    </form>
+  </dialog>
+  <dialog id="pause-dialog" class="eg-dialog eg-small-dialog" aria-labelledby="pause-title">
+    <span class="eg-pause-symbol" aria-hidden="true">Ⅱ</span><h2 id="pause-title">Un pequeño respiro</h2><p>Tu partida está en pausa. Continúa cuando estés listo.</p>
+    <button id="resume-button" type="button" class="eg-primary">Seguir jugando</button><button id="pause-menu" type="button" class="eg-secondary">Cambiar vocabulario</button>
+  </dialog>
+  <dialog id="result-dialog" class="eg-dialog eg-result-dialog" aria-labelledby="result-title" aria-describedby="result-description">
+    <span id="result-symbol" class="eg-result-symbol" aria-hidden="true">✓</span><span class="eg-kicker" id="result-kicker">PARTIDA COMPLETADA</span><h2 id="result-title">¡Lo lograste!</h2><p id="result-description"></p>
+    <div class="eg-result-stats"><div><strong id="result-score">10 / 10</strong><span>aciertos</span></div><div><strong id="result-strikes">0 / 3</strong><span>strikes</span></div></div>
+    <button id="retry-button" type="button" class="eg-primary">Jugar otra vez</button><button id="result-menu" type="button" class="eg-secondary">Elegir otro vocabulario</button>
+  </dialog>
+</body>
+</html>

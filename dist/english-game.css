@@ -1,0 +1,102 @@
+.eg-page { min-width: 280px; min-height: 100vh; background: radial-gradient(ellipse at 80% 0%, var(--accent), transparent 65%), var(--background); }
+.eg-shell { width: min(1180px, calc(100% - 64px)); margin: 0 auto; padding-bottom: 28px; }
+.eg-header { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--border); }
+.eg-back { color: var(--muted-foreground); font-size: 14px; font-weight: 650; }
+.eg-back:hover { color: var(--primary); }
+.eg-brand { color: var(--foreground); display: flex; align-items: center; gap: 5px; font-size: 22px; font-weight: 750; letter-spacing: -.6px; }
+.eg-brand img { object-fit: contain; }
+.eg-header-label { font-size: 11px; letter-spacing: 2px; color: var(--muted-foreground); }
+.eg-title-row { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 28px 0 23px; }
+.eg-title-row h1 { display: flex; align-items: center; gap: 13px; font-size: clamp(27px, 3.2vw, 38px); line-height: 1.2; letter-spacing: -1.3px; margin-bottom: 8px; }
+.eg-title-row p { color: var(--muted-foreground); font-size: 15px; }
+.eg-easy-tag { padding: 5px 9px; background: var(--success-bg); color: var(--success); border: 1px solid color-mix(in srgb, var(--success) 20%, transparent); border-radius: 7px; letter-spacing: 0; font-size: 12px; font-weight: 650; }
+.eg-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.eg-tool { background: var(--card); color: var(--foreground); border: 1px solid var(--border); border-radius: 9px; min-height: 42px; padding: 9px 13px; font-size: 14px; font-weight: 550; }
+.eg-tool:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.eg-tool:disabled { opacity: .45; }
+.eg-arena { overflow: hidden; border: 1px solid #344f7b; border-radius: 22px; box-shadow: 0 22px 50px #101e4220; background: #15294b; color: #fff; }
+.eg-hud { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 20px 26px; background: #10203b; border-bottom: 1px solid #ffffff12; }
+.eg-category { min-width: 0; flex: 1; }
+.eg-category > span, .eg-strikes > span { display: block; color: #abc1e6; font-size: 11px; font-weight: 650; letter-spacing: 1.5px; margin-bottom: 5px; }
+.eg-category strong { display: block; font-size: 18px; font-weight: 650; overflow-wrap: anywhere; }
+.eg-score { text-align: center; width: min(240px, 27%); flex-shrink: 0; }
+.eg-score > span { font-size: 13px; color: #c4d1e8; }
+.eg-score strong { font-size: 27px; font-weight: 750; color: #fff; }
+.eg-score progress { display: block; appearance: none; height: 6px; width: 100%; border: 0; overflow: hidden; margin-top: 7px; border-radius: 6px; background: #344566; accent-color: #73e3b4; }
+.eg-score progress::-webkit-progress-bar { background: #344566; }
+.eg-score progress::-webkit-progress-value { background: #73e3b4; border-radius: 6px; transition: width .2s; }
+.eg-score progress::-moz-progress-bar { background: #73e3b4; }
+.eg-strikes { text-align: right; flex: 1; }
+#strike-marks { display: flex; justify-content: flex-end; gap: 6px; }
+#strike-marks i { width: 27px; height: 27px; display: inline-grid; place-items: center; color: transparent; border: 1px solid #597095; border-radius: 6px; font-size: 25px; line-height: 1; font-style: normal; font-weight: 650; }
+#strike-marks i.is-strike { color: #ff7891; border-color: #ff78916b; background: #ff526921; animation: eg-strike .25s ease-out; }
+.eg-stage { position: relative; width: 100%; aspect-ratio: 1000 / 440; touch-action: none; }
+#game-canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: pointer; }
+#game-canvas:focus-visible { outline: 3px solid #afd9ff; outline-offset: -5px; }
+.eg-arena-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 57px; padding: 12px 24px; border-top: 1px solid #ffffff12; background: #10203b; }
+#game-feedback { font-size: 14px; color: #d3e0f5; line-height: 1.5; }
+#game-feedback.is-correct { color: #83ecc0; }
+#game-feedback.is-wrong { color: #ff98aa; }
+#game-state { color: #a8bddd; white-space: nowrap; font-size: 12px; }
+.eg-controls { display: flex; gap: 22px; align-items: center; justify-content: space-between; padding-top: 23px; }
+.eg-controls p { font-size: 14px; }
+.eg-muted { margin-top: 7px; color: var(--muted-foreground); }
+.eg-controls kbd { font: 12px var(--font-sans); font-weight: 600; display: inline-block; padding: 3px 7px; border-radius: 5px; background: var(--card); border: 1px solid var(--input); border-bottom-width: 3px; margin-right: 2px; }
+.eg-jump { flex-shrink: 0; min-width: 158px; min-height: 53px; display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 14px 22px; border: 1px solid color-mix(in srgb, var(--primary) 75%, #000); border-radius: 12px; background: var(--primary); color: #fff; font-weight: 650; box-shadow: 0 4px 0 var(--brand-deep); touch-action: manipulation; }
+.eg-jump span { font-size: 23px; line-height: 1; }
+.eg-jump:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--brand-deep); }
+.eg-jump:disabled { opacity: .45; }
+.eg-note { margin-top: 24px; font-size: 12px; text-align: center; color: var(--muted-foreground); }
+.eg-dialog { width: min(490px, calc(100vw - 28px)); padding: 30px; border: 1px solid var(--border); border-radius: 22px; color: var(--foreground); background: var(--card); box-shadow: 0 30px 100px #0007; max-height: calc(100dvh - 32px); overflow-y: auto; }
+.eg-dialog::backdrop { background: #08142bc2; backdrop-filter: blur(7px); }
+.eg-dialog[open] { animation: eg-dialog-in .2s ease-out; }
+.eg-menu-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.eg-menu-heading img { flex-shrink: 0; width: 70px; height: 70px; object-fit: contain; }
+.eg-kicker { display: block; font-size: 11px; color: var(--primary); font-weight: 750; letter-spacing: 1.8px; margin-bottom: 5px; }
+.eg-dialog h2 { font-size: 27px; line-height: 1.2; letter-spacing: -.8px; }
+.eg-dialog > p, .eg-menu-heading + p { font-size: 15px; color: var(--muted-foreground); line-height: 1.6; }
+.eg-field-label { display: block; margin: 23px 0 8px; font-size: 14px; font-weight: 650; }
+#category-select { display: block; font: inherit; width: 100%; height: 49px; padding: 0 14px; border: 1px solid var(--input); border-radius: 9px; background: var(--background); color: var(--foreground); }
+#category-select:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.eg-field-hint { color: var(--muted-foreground); font-size: 12px; min-height: 20px; margin-top: 6px; }
+.eg-difficulties { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; border: 0; padding: 0; margin: 20px 0; }
+.eg-difficulties legend { font-size: 14px; font-weight: 650; margin-bottom: 10px; padding: 0; }
+.eg-mode { position: relative; min-width: 0; }
+.eg-mode input { position: absolute; opacity: 0; }
+.eg-mode > span { padding: 12px 7px; display: flex; flex-direction: column; align-items: center; gap: 4px; border: 1px solid var(--border); border-radius: 11px; background: var(--background); }
+.eg-mode input:checked + span { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); background: var(--accent); }
+.eg-mode input:focus-visible + span { outline: 3px solid var(--ring); outline-offset: 3px; }
+.eg-mode strong { font-size: 16px; font-weight: 700; }
+.eg-mode small { font-size: 12px; color: var(--muted-foreground); }
+.eg-mode em { font-style: normal; font-size: 10px; margin-top: 6px; color: var(--muted-foreground); text-align: center; }
+.eg-mode input:checked + span em { color: var(--primary); font-weight: 650; }
+.eg-mode-locked { cursor: not-allowed; }
+.eg-mode-locked strong { color: var(--muted-foreground); }
+.eg-rule-note { padding: 13px 15px; border: 1px solid var(--border); border-radius: 11px; background: var(--background); }
+.eg-hit-example,.eg-miss-example { font-size: 12px; font-weight: 650; margin-right: 15px; }
+.eg-hit-example { color: var(--success); }.eg-miss-example { color: var(--destructive); }
+.eg-rule-note p { font-size: 12px; color: var(--muted-foreground); line-height: 1.6; margin-top: 6px; }
+.eg-primary,.eg-secondary { display: block; width: 100%; min-height: 48px; padding: 12px 15px; border-radius: 10px; font-weight: 650; }
+.eg-primary { margin-top: 22px; border: 1px solid transparent; background: var(--primary); color: #fff; }
+.eg-primary:hover:not(:disabled) { background: var(--brand-deep); }.eg-primary:disabled { opacity: .5; }
+.eg-secondary { margin-top: 9px; border: 1px solid var(--border); background: transparent; color: var(--foreground); }
+.eg-primary[hidden],.eg-secondary[hidden] { display: none; }
+.eg-form-error { color: var(--destructive); margin-top: 12px; font-size: 14px; }
+.eg-small-dialog,.eg-result-dialog { text-align: center; width: min(410px, calc(100vw - 28px)); padding: 34px; }
+.eg-small-dialog h2,.eg-result-dialog h2 { margin-bottom: 12px; }
+.eg-pause-symbol,.eg-result-symbol { display: grid; place-items: center; width: 66px; height: 66px; margin: 0 auto 20px; border-radius: 20px; background: var(--accent); color: var(--primary); font-size: 35px; font-weight: 750; }
+.eg-result-symbol { background: var(--success-bg); color: var(--success); }
+.eg-result-dialog.is-lost .eg-result-symbol { background: color-mix(in srgb, var(--destructive) 12%, var(--card)); color: var(--destructive); }
+.eg-result-stats { display: flex; justify-content: center; gap: 45px; margin: 25px 0; padding: 19px 10px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.eg-result-stats strong { display: block; font-size: 25px; }.eg-result-stats span { font-size: 12px; color: var(--muted-foreground); }
+@keyframes eg-strike { from { transform: scale(1.5); } to { transform: scale(1); } }
+@keyframes eg-dialog-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 780px) { .eg-shell { width: calc(100% - 32px); }.eg-title-row { flex-wrap: wrap; gap: 16px; }.eg-header-label { display: none; }.eg-stage { aspect-ratio: 760 / 440; } }
+@media (max-width: 500px) {
+  .eg-shell { width: calc(100% - 22px); }.eg-header { min-height: 68px; }.eg-title-row { padding: 20px 0 17px; }.eg-title-row p { font-size: 14px; }.eg-tools { width: 100%; }.eg-tool { flex: 1; padding: 9px 6px; font-size: 13px; }
+  .eg-arena { border-radius: 15px; }.eg-hud { padding: 14px 12px; gap: 10px; }.eg-category > span { font-size: 9px; letter-spacing: .8px; }.eg-category strong { font-size: 14px; }.eg-score { width: 23%; }.eg-score strong { font-size: 23px; }.eg-score > span { font-size: 10px; }.eg-strikes > span { font-size: 9px; }#strike-marks { gap: 4px; }#strike-marks i { width: 22px; height: 24px; font-size: 21px; }
+  .eg-stage { aspect-ratio: 500 / 440; }.eg-arena-footer { padding: 11px 13px; min-height: 67px; }#game-feedback { font-size: 13px; }#game-state { display: none; }
+  .eg-controls { align-items: stretch; gap: 14px; flex-direction: column-reverse; padding-top: 16px; }.eg-jump { justify-content: center; min-height: 51px; }.eg-controls p { font-size: 12px; }.eg-note { font-size: 11px; margin-top: 18px; }
+  .eg-dialog { padding: 23px; }.eg-menu-heading { gap: 7px; }.eg-menu-heading img { width: 58px; height: 58px; }.eg-dialog h2 { font-size: 24px; }.eg-dialog > p { font-size: 14px; }.eg-field-label { margin-top: 17px; }.eg-difficulties { margin: 16px 0; }.eg-mode strong { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .eg-dialog[open], #strike-marks i.is-strike { animation: none; }.eg-score progress::-webkit-progress-value { transition: none; } }

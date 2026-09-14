@@ -10,6 +10,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const net = require('node:net');
+const publicFiles = require('./server/public-files.cjs');
 
 class Presence {
   constructor() { this.sessions = new Map(); }
@@ -38,24 +39,9 @@ class Presence {
 function createApp(directory, options = {}) {
   let aulaPromise;
   const presence = new Presence();
-  const files = new Map([
-    ['/', ['index.html', 'text/html; charset=utf-8']],
-    ['/index.html', ['index.html', 'text/html; charset=utf-8']],
-    ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
-    ['/script.js', ['script.js', 'text/javascript; charset=utf-8']],
-    ['/english-data.js', ['english-data.js', 'text/javascript; charset=utf-8']],
-    ['/english-game.html', ['english-game.html', 'text/html; charset=utf-8']],
-    ['/english-game.css', ['english-game.css', 'text/css; charset=utf-8']],
-    ['/english-game-engine.js', ['english-game-engine.js', 'text/javascript; charset=utf-8']],
-    ['/english-game.js', ['english-game.js', 'text/javascript; charset=utf-8']],
-    ['/match-pairs.js', ['match-pairs.js', 'text/javascript; charset=utf-8']],
-    ['/match-pairs.css', ['match-pairs.css', 'text/css; charset=utf-8']],
-    ['/aula.js', ['aula.js', 'text/javascript; charset=utf-8']],
-    ['/aula.css', ['aula.css', 'text/css; charset=utf-8']],
-    ['/aula-video.js', ['aula-video.js', 'text/javascript; charset=utf-8']],
-    ['/english-mascot.png', ['english-mascot.png', 'image/png']],
-    ['/sw.js', ['sw.js', 'text/javascript; charset=utf-8']]
-  ]);
+  const types = {html:'text/html; charset=utf-8',css:'text/css; charset=utf-8',js:'text/javascript; charset=utf-8',png:'image/png',txt:'text/plain; charset=utf-8'};
+  const files = new Map(publicFiles.map(file=>['/'+file,[file,types[path.extname(file).slice(1)]]]));
+  files.set('/',files.get('/index.html'));
   const timer = setInterval(() => presence.prune(), 30000);
   timer.unref();
   const server = http.createServer(async (request, response) => {

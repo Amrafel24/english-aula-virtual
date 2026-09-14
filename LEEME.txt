@@ -15,6 +15,10 @@ Los archivos de la interfaz se encuentran dentro de dist/.
 - styles.css: diseño adaptable, 12 temas y modo claro/oscuro.
 - english-data.js: contenido educativo compartido por la página y los juegos.
 - script.js: interacciones de la página y sus secciones.
+- dictionary.js y dictionary.css: buscador bilingüe, significados y audio.
+- dictionary-index.js y dictionary-pack-0.js a dictionary-pack-f.js:
+  base del diccionario, cargada por partes al abrir esta sección.
+- dictionary-license.txt: atribución y licencia de los datos del diccionario.
 - english-mascot.png: el personaje de English, en PNG con fondo transparente,
   utilizado junto al nombre de la página y como icono de la pestaña.
 
@@ -35,6 +39,88 @@ notificaciones; 12 temas y cambio entre modo claro y oscuro.
 English game disponible en Easy y Match the Pairs disponible.
 Guess the image, Medium y Hard muestran
 Coming soon.
+
+DICCIONARIO
+Abre Diccionario desde el menú desplegable. Puedes buscar en inglés o
+español, con o sin tildes, filtrar por tipo de palabra y consultar sus
+traducciones, definiciones en inglés y variantes fonéticas disponibles.
+Incluye más de 59.000 palabras y expresiones de WikDict / FreeDict
+(edición 23 de noviembre de 2025), además de los vocabularios de English.
+Las formas de los verbos incluidos en la página también se pueden buscar.
+Escuchar y Más lento usan las voces en inglés disponibles en el dispositivo.
+Guarda palabras o significados en Mis listas; se conservan al recargar y
+se incluyen en la exportación PDF. Las listas siguen siendo de este navegador.
+No requiere claves de API ni una cuenta del aula. Al abrirlo por internet,
+necesita conexión para descargar el índice y las partes aún no cargadas.
+El índice se carga al entrar; los significados se descargan según se consultan.
+Los datos adaptados conservan la licencia CC BY-SA 3.0: consulta
+dist/dictionary-license.txt. Las traducciones dependen del contexto.
+Para regenerar los datos: descarga el archivo fuente indicado en
+scripts/build-dictionary.py y ejecuta python scripts/build-dictionary.py
+seguido de la ruta al archivo .tar.xz. No es necesario para usar la página.
+
+ACTUALIZAR LA VERSIÓN DE RENDER
+Sustituye los archivos del proyecto en tu repositorio de GitHub con esta
+versión, incluida la carpeta dist/ completa y server/public-files.cjs.
+Conserva la configuración del servicio, sus variables y los datos del aula.
+Render publicará el cambio si tienes activado el despliegue automático.
+El comando de inicio sigue siendo node servidor.js, con tus variables
+ENGLISH_PORT, ENGLISH_ORIGIN y ENGLISH_DATA_DIR configuradas en Render.
+
+GRAMMARS
+La sección Grammars se organiza en ocho subsecciones:
+- Verb Tenses
+- Passive Voice
+- Auxiliary Verbs
+- Full Verbs
+- State & Dynamic Verbs
+- Prepositional Phrases
+- Compound Sentences
+- Transition Words and Phrases
+Verb Tenses y Passive Voice ya incluyen sus lecciones; las otras seis subsecciones
+mantienen el aviso Próximamente.
+Las lecciones anteriores siguen en Lecciones básicas disponibles,
+debajo de las tarjetas, con sus ejemplos y pronunciación.
+
+VERB TENSES
+Entra en Grammars > Verb Tenses. Encontrarás 12 tiempos organizados
+en Presente, Pasado y Futuro, más una guía complementaria de Be Going To.
+Cada lección incluye definición, usos, estructuras afirmativas y negativas,
+preguntas, respuestas cortas, ejemplos traducidos con audio normal y lento,
+concordancia, reglas, marcadores temporales, comparaciones y errores frecuentes.
+Los colores distinguen definición, estructuras, ejemplos, claves y errores;
+los títulos permiten reconocer cada parte también sin depender del color.
+Hay cuatro actividades por lección (52 en total), incluida una respuesta
+escrita. Comprobar muestra el resultado y la explicación de cada respuesta.
+Puedes corregir las respuestas o reiniciar. Los intentos se conservan al
+cambiar de sección mientras la página siga abierta; se reinician al recargar.
+Usa el selector, los botones anterior/siguiente o el índice para navegar.
+Los contenidos están en dist/verb-tenses-data.js; la interfaz y corrección
+en dist/verb-tenses.js; los colores y estilos en dist/verb-tenses.css.
+Las referencias de consulta se encuentran al final de cada lección.
+
+PASSIVE VOICE
+Entra en Grammars > Passive Voice. Incluye 16 lecciones:
+- Fundamentos: Active & Passive Voice y Building the Passive.
+- Presente: Simple, Continuous y Perfect en pasiva.
+- Pasado: Simple, Continuous y Perfect en pasiva.
+- Futuro: Will, Be Going To y Future Perfect en pasiva.
+- Otras construcciones: Modal Passives, Modal Perfect Passives, Get Passive,
+  Passive Infinitives & Gerunds y Reporting Passives.
+Cada lección conserva la estructura de Verb Tenses: definición, usos,
+estructuras afirmativa/negativa/preguntas/WH, concordancia, respuestas cortas,
+claves, expresiones útiles, comparación, errores frecuentes y práctica.
+Incluye ejemplos con traducción y audio normal/lento, selector de lecciones,
+navegación anterior/siguiente y referencias para ampliar.
+Hay cuatro actividades por lección (64 en total), con una respuesta escrita,
+corrección y explicación. Los intentos se conservan al navegar durante la
+sesión abierta, de forma independiente a los de Verb Tenses.
+El índice incluye participios, una tabla de consulta y una explicación de
+las pasivas continuas poco frecuentes; no se presentan como formas habituales.
+Los contenidos están en dist/passive-voice-data.js y el índice en
+dist/passive-voice.js. Comparte la interfaz, el corrector y los estilos con
+Verb Tenses para mantener el mismo diseño. Funciona abriendo dist/index.html
+o con el servidor Node. El audio usa las voces inglesas del navegador/sistema.
 
 AULA VIRTUAL
 En el menú principal encontrarás Aula virtual: Profesores y Estudiantes.

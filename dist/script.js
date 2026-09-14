@@ -1388,6 +1388,12 @@ const ICONS = {
 
 // Iconos de Aula virtual, con el mismo estilo de línea de English.
 Object.assign(ICONS, {
+  'layers': [['path',{d:'m12 3-10 5 10 5 10-5-10-5Z M2 12l10 5 10-5 M2 16l10 5 10-5'}]],
+  'git-compare': [['circle',{cx:6,cy:5,r:3}],['circle',{cx:18,cy:19,r:3}],['path',{d:'M6 8v8a3 3 0 0 0 3 3h3 M18 16V8a3 3 0 0 0-3-3h-3 m-2 12 2 2-2 2 m4-18-2 2 2 2'}]],
+  'circle-alert': [['circle',{cx:12,cy:12,r:10}],['path',{d:'M12 8v4 M12 16h.01'}]],
+  'search': [['circle',{cx:11,cy:11,r:8}],['path',{d:'m21 21-4.3-4.3'}]],
+  'chevron-left': [['path',{d:'m15 18-6-6 6-6'}]],
+  'arrow-up-right': [['path',{d:'M7 17 17 7 M7 7h10v10'}]],
   'video': [['rect',{x:3,y:5,width:12,height:14,rx:2}],['path',{d:'m15 10 6-4v12l-6-4'}]],
   'messages-square': [['path',{d:'M8 3H3v14l4-4h10V3H8Z M8 17v4h9l4 3V10h-4'}]],
   'backpack': [['rect',{x:5,y:6,width:14,height:16,rx:3}],['path',{d:'M9 6V4a3 3 0 0 1 6 0v2 M5 14h14 M9 14v3'}]],
@@ -1400,10 +1406,11 @@ Object.assign(ICONS, {
 // ===== Aplicación: JavaScript puro =====
 (() => {
   const D = ENGLISH_DATA;
+  const dictionaryCore = typeof module !== 'undefined' && module.exports ? require('./dictionary.js') : globalThis.EnglishDictionary;
   const KEY = 'english.pure.v1';
   const allWords = D.categories.flatMap(category => category.words);
   const wordMap = Object.fromEntries(allWords.map(word => [word.id, word]));
-  const views = new Set(['inicio','guia','grammars','preguntas','lecturas','verbos','vocabularios','speaking','listening','conectores','numeros','practicas','test','sistema','listas','recordatorio','juegos','aula']);
+  const views = new Set(['inicio','guia','grammars','preguntas','lecturas','verbos','vocabularios','diccionario','speaking','listening','conectores','numeros','practicas','test','sistema','listas','recordatorio','juegos','aula']);
   const categoryIcons = ['house','briefcase','briefcase','map-pin','users','utensils','shirt','car','stethoscope','graduation-cap','laptop','trophy','cloud-sun','paw-print','palette','music','building-2','plane','home','utensils','flower-2','briefcase','graduation-cap','tree-pine','building-2','wheat'];
   const $ = selector => document.querySelector(selector);
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1424,7 +1431,23 @@ Object.assign(ICONS, {
     return count;
   }
   function defaultState() {
-    return {version:1,lists:[],reminders:[],studyDays:[],notifications:[],notificationsEnabled:false,lastReminderCheck:Date.now(),palette:'english',dark:false};
+    return {version:1,lists:[],dictionaryWords:{},reminders:[],studyDays:[],notifications:[],notificationsEnabled:false,lastReminderCheck:Date.now(),palette:'english',dark:false};
+  }
+  function restoreDictionaryWords(data) {
+    const saved={};
+    for(const word of Object.values(data.dictionaryWords || {})) {
+      if(!dictionaryCore.validSavedWord(word))continue;
+      saved[word.id]={id:word.id,en:word.en,es:word.es,category:'Diccionario'};
+      wordMap[word.id]=saved[word.id];
+    }
+    return saved;
+  }
+  function rememberDictionaryWord(data,wordId) {
+    const word=wordMap[wordId];
+    if(dictionaryCore.validSavedWord(word)) {
+      data.dictionaryWords ||= {};
+      data.dictionaryWords[wordId]={id:word.id,en:word.en,es:word.es,category:'Diccionario'};
+    }
   }
   function dueReminders(data, now) {
     const due = [];
@@ -1452,7 +1475,7 @@ Object.assign(ICONS, {
   }
   // Exportaciones opcionales para comprobar la lógica con Node, sin ejecutar la interfaz.
   if(typeof document === 'undefined') {
-    if(typeof module !== 'undefined') module.exports = {dateKey,shiftedDate,indexFor,countStreak,partsAt,dueReminders,defaultState,data:D};
+    if(typeof module !== 'undefined') module.exports = {dateKey,shiftedDate,indexFor,countStreak,partsAt,dueReminders,defaultState,restoreDictionaryWords,rememberDictionaryWord,groupedListWords,data:D};
     return;
   }
   const ui = {view:'inicio',detail:'',dailyValue:'',dailyFeedback:null,modal:null,selectedWord:null,editId:null,deleteTarget:null,reading:0,readingValue:'',readingChecked:false,translation:false,speaking:0,listening:0,listeningValue:'',listeningChecked:false,transcript:false,practice:0,practiceValue:'',practiceChecked:false,test:0,testValue:'',testAnswers:[],testFinished:false,mobileMenu:false};
@@ -1460,6 +1483,12 @@ Object.assign(ICONS, {
   const matchPairs = globalThis.createMatchPairs({data:D,esc,link,action,render,
     isActive:()=>ui.view==='juegos'&&ui.detail==='match-the-pairs'});
   const aula = globalThis.createEnglishAula({icon});
+  const tenses = globalThis.createEnglishTenses({icon,speak});
+  const passive = globalThis.createEnglishPassive({icon,speak});
+  const dictionary = globalThis.createEnglishDictionary({icon,data:D,speak,
+    isSaved:wordId=>state.lists.some(list=>list.words.includes(wordId)),
+    saveWord:word=>{if(wordMap[word.id]||dictionaryCore.validSavedWord(word)){wordMap[word.id]=word;wordDialog(word);}}
+  });
   const modal = $('#app-dialog');
   let modalTrigger = null;
   function storageWarning(message) { const box=$('#storage-warning'); box.textContent=message; box.hidden=false; }
@@ -1468,7 +1497,7 @@ Object.assign(ICONS, {
     if(!raw) return defaultState();
     const data = JSON.parse(raw);
     if(!data || !Array.isArray(data.lists) || !Array.isArray(data.reminders) || !Array.isArray(data.studyDays) || !Array.isArray(data.notifications)) throw new Error('Los datos guardados no tienen un formato válido.');
-    return {...defaultState(),...data};
+    return {...defaultState(),...data,dictionaryWords:restoreDictionaryWords(data)};
   }
   try {
     const probe=KEY+'.check'; localStorage.setItem(probe,'1'); localStorage.removeItem(probe);
@@ -1547,11 +1576,14 @@ Object.assign(ICONS, {
   }
   function groupedListWords(list) {
     const selected=new Set(list.words);
-    return D.categories.map(category=>({
+    const groups=D.categories.map(category=>({
       id:category.id,
       name:category.name,
       words:category.words.filter(word=>selected.has(word.id)).slice().sort((a,b)=>a.en.localeCompare(b.en,'en',{sensitivity:'base'}))
     })).filter(group=>group.words.length);
+    const words=list.words.map(key=>wordMap[key]).filter(word=>dictionaryCore.validSavedWord(word)).sort((a,b)=>a.en.localeCompare(b.en,'en',{sensitivity:'base'}));
+    if(words.length)groups.push({id:'diccionario',name:'Diccionario',words});
+    return groups;
   }
   function printListPdf(list) {
     if(!list.words.length){toast('Añade palabras a la lista antes de crear el PDF.','error');return;}
@@ -1561,10 +1593,13 @@ Object.assign(ICONS, {
     const total=groups.reduce((sum,group)=>sum+group.words.length,0);
     const date=new Intl.DateTimeFormat('es-DO',{day:'2-digit',month:'long',year:'numeric'}).format(new Date());
     const sections=groups.map(group=>`<section class="pdf-category"><h2>${esc(group.name)}</h2><table class="pdf-table"><thead><tr><th>English</th><th>Español</th></tr></thead><tbody>${group.words.map(word=>`<tr><td lang="en">${esc(word.en)}</td><td>${esc(word.es)}</td></tr>`).join('')}</tbody></table></section>`).join('');
+    const dictionaryCredit=groups.some(group=>group.id==='diccionario')?'<p>Diccionario: Wiktionary / WikDict / FreeDict (2025.11.23), adaptado por English. Datos bajo <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. Fuente: <a href="https://freedict.org/">freedict.org</a>.</p>':'';
     const doc=`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(list.name)} - English</title><style>
       @page{size:A4;margin:16mm 14mm 17mm}*{box-sizing:border-box}body{margin:0;color:#172033;font:14px/1.45 Arial,Helvetica,sans-serif;background:#fff}.pdf-header{border-bottom:3px solid #5265dc;padding:0 0 16px;margin-bottom:22px}.brand{display:inline-block;background:#5265dc;color:#fff;font-size:20px;font-weight:800;padding:6px 10px;border-radius:8px;margin-bottom:14px}.pdf-header h1{font-size:28px;line-height:1.1;margin:0 0 7px}.meta{color:#64748b;margin:0}.pdf-category{margin:0 0 22px}.pdf-category h2{font-size:18px;margin:0 0 8px;color:#3346b8;border-left:4px solid #5265dc;padding-left:9px;break-after:avoid}.pdf-table{width:100%;border-collapse:collapse;border:1px solid #dbe1ee}.pdf-table th,.pdf-table td{width:50%;padding:8px 11px;border:1px solid #e8ecf4;text-align:left;vertical-align:top}.pdf-table th{background:#f2f4ff;font-weight:700;color:#334155}.pdf-table thead{display:table-header-group}.pdf-table tr{break-inside:avoid}.pdf-footer{margin-top:28px;padding-top:10px;border-top:1px solid #dbe1ee;color:#64748b;font-size:11px;text-align:center}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none!important}}
-    </style></head><body><header class="pdf-header"><div class="brand">English.</div><h1>${esc(list.name)}</h1><p class="meta">${total} palabras · ${groups.length} categorías · ${esc(date)}</p></header>${sections}<footer class="pdf-footer">Lista de aprendizaje creada en English · Organizada automáticamente por categoría</footer><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),250));window.addEventListener('afterprint',()=>window.close());<\/script></body></html>`;
+    </style></head><body><header class="pdf-header"><div class="brand">English.</div><h1>${esc(list.name)}</h1><p class="meta">${total} palabras · ${groups.length} categorías · ${esc(date)}</p></header>${sections}<footer class="pdf-footer">Lista de aprendizaje creada en English · Organizada automáticamente por categoría${dictionaryCredit}</footer></body></html>`;
     popup.opener=null;popup.document.open();popup.document.write(doc);popup.document.close();
+    popup.addEventListener('afterprint',()=>popup.close());
+    setTimeout(()=>{if(!popup.closed){popup.focus();popup.print();}},250);
   }
   function vocabularies() {
     const category=D.categories.find(c=>c.id===ui.detail);
@@ -1592,7 +1627,25 @@ Object.assign(ICONS, {
     return title('Guía de aprendizaje','Un camino sencillo para empezar y seguir avanzando.')+`<div class="lesson-list">${steps.map(([name,body,route,label],i)=>`<article class="card lesson-row"><span class="lesson-number">0${i+1}</span><div><h2>${name}</h2><p>${body}</p>${link(label,route)}</div></article>`).join('')}</div>`;
   }
   function grammarsPage() {
-    return title('Grammars','Entiende la estructura. Después, dale tu propia voz.')+`<div class="lesson-list">${D.grammar.map((g,i)=>`<article class="card lesson-row"><span class="lesson-number">0${i+1}</span><div><h2>${esc(g.title)}</h2><p>${esc(g.body)}</p><div class="example-block"><span lang="en">${esc(g.en)}</span><small>${esc(g.es)}</small></div>${action('Escuchar ejemplos','speak',`data-text="${esc(g.en)}"`,'text-link','volume-2')}</div></article>`).join('')}</div>`;
+    const sections=[
+      {id:'verb-tenses',name:'Verb Tenses',symbol:'⏳',description:'Present, past, future and their combinations.',lang:'en'},
+      {id:'passive-voice',name:'Passive Voice',symbol:'📢',description:'Structure and use of the passive voice in English.',lang:'en'},
+      {id:'auxiliary-verbs',name:'Auxiliary Verbs',symbol:'🛠️',description:'Be, have, do y modales.',lang:'es'},
+      {id:'full-verbs',name:'Full Verbs',symbol:'📚',description:'Main verbs and their forms.',lang:'en'},
+      {id:'state-dynamic-verbs',name:'State & Dynamic Verbs',symbol:'🔄',description:'Differences between stative and action verbs.',lang:'en'},
+      {id:'prepositional-phrases',name:'Prepositional Phrases',symbol:'📌',description:'Prepositions and their use in context.',lang:'en'},
+      {id:'compound-sentences',name:'Compound Sentences',symbol:'🧩',description:'Coordinated and subordinate.',lang:'en'},
+      {id:'transition-words-and-phrases',name:'Transition Words and Phrases',symbol:'🔀',description:'Connectors to join ideas.',lang:'en'}
+    ];
+    const section=sections.find(item=>item.id===ui.detail);
+    if(section) {
+      return `<div class="back-link">${link('Volver a Grammars','grammars','text-link','arrow-left')}</div>
+        <div class="page-heading"><div><div class="eyebrow">GRAMMARS</div><h1 lang="en">${esc(section.name)}</h1><p lang="${section.lang}">${esc(section.description)}</p></div></div>
+        <section class="card empty-state grammar-pending"><span class="tile-icon grammar-symbol" aria-hidden="true">${section.symbol}</span><h2>Próximamente</h2><p>El contenido de esta subsección estará disponible más adelante.</p>${link('Ver todas las subsecciones','grammars','outline-button','arrow-left')}</section>`;
+    }
+    return title('Grammars','Explora los temas de gramática inglesa.')+
+      `<div class="subpage-grid grammar-sections">${sections.map(item=>`<a class="category-card grammar-section" href="#/grammars/${item.id}"><div class="card-top"><span class="tile-icon grammar-symbol" aria-hidden="true">${item.symbol}</span><span class="small-pill">${item.id==='verb-tenses'?globalThis.EnglishTenses.data.lessons.length+' lecciones':item.id==='passive-voice'?globalThis.EnglishPassive.data.lessons.length+' lecciones':'Próximamente'}</span></div><h2 lang="en">${esc(item.name)}</h2><p lang="${item.lang}">${esc(item.description)}</p><span class="grammar-section-link">Abrir subsección ${icon('chevron-right')}</span></a>`).join('')}</div>
+      <details class="grammar-existing"><summary>Lecciones básicas disponibles</summary><div class="lesson-list">${D.grammar.map((g,i)=>`<article class="card lesson-row"><span class="lesson-number">0${i+1}</span><div><h2>${esc(g.title)}</h2><p>${esc(g.body)}</p><div class="example-block"><span lang="en">${esc(g.en)}</span><small>${esc(g.es)}</small></div>${action('Escuchar ejemplos','speak',`data-text="${esc(g.en)}"`,'text-link','volume-2')}</div></article>`).join('')}</div></details>`;
   }
   function questionsPage() {
     return title('Preguntas','Expresiones útiles para empezar una conversación.')+`<div class="split-grid">${D.questions.map(([en,es,answer])=>`<article class="card"><div class="card-top"><h2 class="settings-title" lang="en">${esc(en)}</h2>${audio(en)}</div><p class="help-text">${esc(es)}</p><div class="example-block"><small>Una posible respuesta</small><span lang="en">${esc(answer)}</span></div></article>`).join('')}</div>`;
@@ -1682,10 +1735,15 @@ Object.assign(ICONS, {
   }
   function render() {
     if(ui.view!=='juegos'||ui.detail!=='match-the-pairs')matchPairs.leave();
+    if(ui.view!=='grammars'||ui.detail!=='verb-tenses')tenses.leave();
+    if(ui.view!=='grammars'||ui.detail!=='passive-voice')passive.leave();
     const pages={inicio:home,guia:guidePage,grammars:grammarsPage,preguntas:questionsPage,lecturas:readingsPage,verbos:verbsPage,vocabularios:vocabularies,speaking:speakingPage,listening:listeningPage,conectores:connectorsPage,numeros:numbersPage,practicas:()=>practicePage(false),test:()=>practicePage(true),sistema:settingsPage,listas:listsPage,recordatorio:remindersPage,juegos:gamesPage};
     const node=$('#view');
-    if(ui.view==='aula')aula.mount(node,ui.detail);
-    else {aula.leave();node.innerHTML=(pages[ui.view]||home)();}
+    if(ui.view==='grammars'&&ui.detail==='verb-tenses'){dictionary.leave();aula.leave();tenses.mount(node,ui.lesson);}
+    else if(ui.view==='grammars'&&ui.detail==='passive-voice'){dictionary.leave();aula.leave();passive.mount(node,ui.lesson);}
+    else if(ui.view==='aula'){dictionary.leave();aula.mount(node,ui.detail);}
+    else if(ui.view==='diccionario'){aula.leave();dictionary.mount(node);}
+    else {aula.leave();dictionary.leave();node.innerHTML=(pages[ui.view]||home)();}
     document.querySelectorAll('[data-route]').forEach(link=>{if(link.dataset.route===ui.view)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
     const h1=node.querySelector('h1');
     document.title=`${h1?.textContent || 'Aprende a tu ritmo'} · English`;
@@ -1701,8 +1759,8 @@ Object.assign(ICONS, {
   function navigate() {
     if(location.hash && !location.hash.startsWith('#/')) return;
     let hash='inicio';try { hash=decodeURIComponent(location.hash.replace(/^#\/?/,''))||'inicio'; } catch {}
-    const [view,detail='']=hash.split('/');
-    ui.view=views.has(view)?view:'inicio'; ui.detail=detail;
+    const [view,detail='',lesson='']=hash.split('/');
+    ui.view=views.has(view)?view:'inicio'; ui.detail=detail; ui.lesson=lesson;
     if(matchMedia('(max-width:767px)').matches) setMenu(false);
     render(); window.scrollTo({top:0});
   }
@@ -1881,6 +1939,7 @@ Object.assign(ICONS, {
       const result=await update(d=>{
         const list=d.lists.find(l=>l.id===input.dataset.list);if(!list)throw new Error('No encontramos esa lista.');
         const wordId=input.dataset.word;if(!wordMap[wordId])throw new Error('No encontramos esa palabra.');
+        if(wanted)rememberDictionaryWord(d,wordId);
         if(wanted&&!list.words.includes(wordId))list.words.push(wordId);
         if(!wanted)list.words=list.words.filter(w=>w!==wordId);
       });
@@ -1901,7 +1960,7 @@ Object.assign(ICONS, {
         const result=await update(d=>{
           if(d.lists.some(l=>l.id!==editId&&l.name.toLocaleLowerCase()===name.toLocaleLowerCase()))throw new Error('Ya tienes una lista con ese nombre.');
           if(editId){const list=d.lists.find(l=>l.id===editId);if(!list)throw new Error('No encontramos esa lista.');list.name=name;}
-          else {if(d.lists.length>=50)throw new Error('Puedes crear hasta 50 listas.');d.lists.push({id:id(),name,words:wordId&&wordMap[wordId]?[wordId]:[]});}
+          else {if(d.lists.length>=50)throw new Error('Puedes crear hasta 50 listas.');rememberDictionaryWord(d,wordId);d.lists.push({id:id(),name,words:wordId&&wordMap[wordId]?[wordId]:[]});}
         });
         if(result.ok){closeDialog();ui.selectedWord=null;toast(editId?'Nombre actualizado.':'Lista creada.');}
       } else {
@@ -1936,7 +1995,7 @@ Object.assign(ICONS, {
   media.addEventListener('change',()=>{document.body.classList.remove('mobile-menu-open','sidebar-closed');ui.mobileMenu=false;$('#sidebar-shade').hidden=true;setMenu(!media.matches);});
   window.addEventListener('storage',event=>{
     if(event.key!==KEY)return;
-    try {const previous=JSON.stringify([state.lists,state.reminders,state.studyDays,state.notifications,state.palette,state.dark,state.notificationsEnabled]);state=readState();applyAppearance();updateHeader();const next=JSON.stringify([state.lists,state.reminders,state.studyDays,state.notifications,state.palette,state.dark,state.notificationsEnabled]);if(previous!==next)render();}catch{storageWarning('No pudimos leer un cambio guardado en otra pestaña. Recarga la página.');}
+    try {const previous=JSON.stringify([state.lists,state.dictionaryWords,state.reminders,state.studyDays,state.notifications,state.palette,state.dark,state.notificationsEnabled]);state=readState();applyAppearance();updateHeader();const next=JSON.stringify([state.lists,state.dictionaryWords,state.reminders,state.studyDays,state.notifications,state.palette,state.dark,state.notificationsEnabled]);if(previous!==next)render();}catch{storageWarning('No pudimos leer un cambio guardado en otra pestaña. Recarga la página.');}
   });
   document.addEventListener('visibilitychange',()=>{void presence();if(document.visibilityState==='visible')void checkReminders();});
   window.addEventListener('pagehide',()=>{if(serverAvailable&&presenceEndpoint)navigator.sendBeacon(presenceEndpoint,JSON.stringify({tabId,visible:false}));});

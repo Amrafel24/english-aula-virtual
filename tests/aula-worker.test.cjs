@@ -10,7 +10,7 @@ test('Worker empaquetado: HTML/JS/PNG, SIWC, permisos compartidos y R2 privado',
   const env={DB:db,BUCKET:{put:async(k,v)=>bytes.set(k,v),get:async k=>({body:bytes.get(k)}),delete:async k=>bytes.delete(k)}};
   t.after(()=>{db.close();fs.rmSync(temp,{recursive:true,force:true});});
   const fetchWorker=(route,method='GET',body,identity='teacher')=>worker.fetch(new Request('https://english.test'+route,{method,headers:{'Origin':'https://english.test','X-English-Request':'aula','Content-Type':'application/json',...(identity?{'oai-authenticated-user-id':identity,'oai-authenticated-user-email':identity+'@example.test','oai-authenticated-user-full-name':encodeURIComponent('Profesora María'),'oai-authenticated-user-full-name-encoding':'percent-encoded-utf-8'}:{})},...body===undefined?{}:{body:JSON.stringify(body)}}),env);
-  for(const file of ['index.html','aula.js','aula.css','aula-video.js','english-mascot.png']){
+  for(const file of ['index.html','aula.js','aula.css','aula-video.js','english-mascot.png','dictionary.js','dictionary.css','dictionary-index.js','dictionary-pack-0.js','dictionary-license.txt','verb-tenses-data.js','verb-tenses.js','verb-tenses.css']){
     const response=await fetchWorker('/'+file);assert.equal(response.status,200);assert.deepEqual(Buffer.from(await response.arrayBuffer()),fs.readFileSync(path.join(__dirname,'../dist',file)));
   }
   assert.equal((await fetchWorker('/server/index.js')).status,404);

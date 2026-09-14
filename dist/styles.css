@@ -823,6 +823,19 @@ p {
   color: var(--muted-foreground);
   margin-top: 5px;
 }
+.grammar-section { display:flex; flex-direction:column; min-width:0; }
+.grammar-section .card-top { gap:.75rem; flex-wrap:wrap; }
+.grammar-section .grammar-symbol { margin:0; }
+.grammar-symbol { font-size:1.5rem; }
+.grammar-sections .grammar-section h2 { margin-top:1.1rem; font-size:1.125rem; line-height:1.45; overflow-wrap:anywhere; }
+.grammar-sections .grammar-section p { font-size:1rem; line-height:1.6; margin-bottom:1.25rem; }
+.grammar-section-link { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-top:auto; color:var(--accent-foreground); font-size:.875rem; font-weight:600; }
+.grammar-section:focus-visible { outline:2px solid var(--ring); outline-offset:3px; }
+.grammar-existing { margin-top:2rem; }
+.grammar-existing > summary { cursor:pointer; color:var(--accent-foreground); font-size:1rem; font-weight:600; padding:.8rem 0; }
+.grammar-existing[open] > summary { margin-bottom:.6rem; }
+.grammar-pending .outline-button { margin-top:.75rem; }
+@media (max-width:600px) { .subpage-grid.grammar-sections { grid-template-columns:minmax(0,1fr); } }
 .word-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

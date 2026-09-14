@@ -1,12 +1,13 @@
 import {createAula,first,run,videoIceConfig} from './aula-core.mjs';
 import data from '../dist/english-data.js';
 import assets from 'english:assets';
+import publicFiles from './public-files.cjs';
 const SECURITY={
   'X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin',
   'Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'",
   'Permissions-Policy':'camera=(self), microphone=(self)'
 };
-const PUBLIC=new Set(['index.html','styles.css','script.js','english-data.js','english-mascot.png','sw.js','english-game.html','english-game.css','english-game-engine.js','english-game.js','match-pairs.js','match-pairs.css','aula.js','aula.css','aula-video.js']);
+const PUBLIC=new Set(publicFiles);
 export default {async fetch(request,env){
   const url=new URL(request.url);
   if(url.pathname.startsWith('/api/aula')){

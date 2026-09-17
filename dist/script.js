@@ -1485,6 +1485,12 @@ Object.assign(ICONS, {
   const aula = globalThis.createEnglishAula({icon});
   const tenses = globalThis.createEnglishTenses({icon,speak});
   const passive = globalThis.createEnglishPassive({icon,speak});
+  const auxiliary = globalThis.createEnglishAuxiliary({icon,speak});
+  const fullVerbs = globalThis.createEnglishFullVerbs({icon,speak});
+  const stateDynamic = globalThis.createEnglishStateDynamic({icon,speak});
+  const prepositional = globalThis.createEnglishPrepositionalPhrases({icon,speak});
+  const compound = globalThis.createEnglishCompoundSentences({icon,speak});
+  const transitions = globalThis.createEnglishTransitionWords({icon,speak});
   const dictionary = globalThis.createEnglishDictionary({icon,data:D,speak,
     isSaved:wordId=>state.lists.some(list=>list.words.includes(wordId)),
     saveWord:word=>{if(wordMap[word.id]||dictionaryCore.validSavedWord(word)){wordMap[word.id]=word;wordDialog(word);}}
@@ -1630,12 +1636,12 @@ Object.assign(ICONS, {
     const sections=[
       {id:'verb-tenses',name:'Verb Tenses',symbol:'⏳',description:'Present, past, future and their combinations.',lang:'en'},
       {id:'passive-voice',name:'Passive Voice',symbol:'📢',description:'Structure and use of the passive voice in English.',lang:'en'},
-      {id:'auxiliary-verbs',name:'Auxiliary Verbs',symbol:'🛠️',description:'Be, have, do y modales.',lang:'es'},
+      {id:'auxiliary-verbs',name:'Auxiliary Verbs',symbol:'🛠️',description:'Be, have, do y modales.',lang:'en'},
       {id:'full-verbs',name:'Full Verbs',symbol:'📚',description:'Main verbs and their forms.',lang:'en'},
       {id:'state-dynamic-verbs',name:'State & Dynamic Verbs',symbol:'🔄',description:'Differences between stative and action verbs.',lang:'en'},
       {id:'prepositional-phrases',name:'Prepositional Phrases',symbol:'📌',description:'Prepositions and their use in context.',lang:'en'},
       {id:'compound-sentences',name:'Compound Sentences',symbol:'🧩',description:'Coordinated and subordinate.',lang:'en'},
-      {id:'transition-words-and-phrases',name:'Transition Words and Phrases',symbol:'🔀',description:'Connectors to join ideas.',lang:'en'}
+      {id:'transition-words-phrases',name:'Transition Words and Phrases',symbol:'🔀',description:'Connectors to join ideas.',lang:'en'}
     ];
     const section=sections.find(item=>item.id===ui.detail);
     if(section) {
@@ -1644,7 +1650,7 @@ Object.assign(ICONS, {
         <section class="card empty-state grammar-pending"><span class="tile-icon grammar-symbol" aria-hidden="true">${section.symbol}</span><h2>Próximamente</h2><p>El contenido de esta subsección estará disponible más adelante.</p>${link('Ver todas las subsecciones','grammars','outline-button','arrow-left')}</section>`;
     }
     return title('Grammars','Explora los temas de gramática inglesa.')+
-      `<div class="subpage-grid grammar-sections">${sections.map(item=>`<a class="category-card grammar-section" href="#/grammars/${item.id}"><div class="card-top"><span class="tile-icon grammar-symbol" aria-hidden="true">${item.symbol}</span><span class="small-pill">${item.id==='verb-tenses'?globalThis.EnglishTenses.data.lessons.length+' lecciones':item.id==='passive-voice'?globalThis.EnglishPassive.data.lessons.length+' lecciones':'Próximamente'}</span></div><h2 lang="en">${esc(item.name)}</h2><p lang="${item.lang}">${esc(item.description)}</p><span class="grammar-section-link">Abrir subsección ${icon('chevron-right')}</span></a>`).join('')}</div>
+      `<div class="subpage-grid grammar-sections">${sections.map(item=>`<a class="category-card grammar-section" href="#/grammars/${item.id}"><div class="card-top"><span class="tile-icon grammar-symbol" aria-hidden="true">${item.symbol}</span><span class="small-pill">${item.id==='verb-tenses'?globalThis.EnglishTenses.data.lessons.length+' lecciones':item.id==='passive-voice'?globalThis.EnglishPassive.data.lessons.length+' lecciones':item.id==='auxiliary-verbs'?globalThis.EnglishAuxiliary.data.lessons.length+' lecciones':item.id==='full-verbs'?globalThis.EnglishFullVerbs.data.lessons.length+' lecciones':item.id==='state-dynamic-verbs'?globalThis.EnglishStateDynamic.data.lessons.length+' lecciones':item.id==='prepositional-phrases'?globalThis.EnglishPrepositionalPhrases.data.lessons.length+' lecciones':item.id==='compound-sentences'?globalThis.EnglishCompoundSentences.data.lessons.length+' lecciones':item.id==='transition-words-phrases'?globalThis.EnglishTransitionWords.data.lessons.length+' lecciones':'Próximamente'}</span></div><h2 lang="en">${esc(item.name)}</h2><p lang="${item.lang}">${esc(item.description)}</p><span class="grammar-section-link">Abrir subsección ${icon('chevron-right')}</span></a>`).join('')}</div>
       <details class="grammar-existing"><summary>Lecciones básicas disponibles</summary><div class="lesson-list">${D.grammar.map((g,i)=>`<article class="card lesson-row"><span class="lesson-number">0${i+1}</span><div><h2>${esc(g.title)}</h2><p>${esc(g.body)}</p><div class="example-block"><span lang="en">${esc(g.en)}</span><small>${esc(g.es)}</small></div>${action('Escuchar ejemplos','speak',`data-text="${esc(g.en)}"`,'text-link','volume-2')}</div></article>`).join('')}</div></details>`;
   }
   function questionsPage() {
@@ -1737,10 +1743,22 @@ Object.assign(ICONS, {
     if(ui.view!=='juegos'||ui.detail!=='match-the-pairs')matchPairs.leave();
     if(ui.view!=='grammars'||ui.detail!=='verb-tenses')tenses.leave();
     if(ui.view!=='grammars'||ui.detail!=='passive-voice')passive.leave();
+    if(ui.view!=='grammars'||ui.detail!=='auxiliary-verbs')auxiliary.leave();
+    if(ui.view!=='grammars'||ui.detail!=='full-verbs')fullVerbs.leave();
+    if(ui.view!=='grammars'||ui.detail!=='state-dynamic-verbs')stateDynamic.leave();
+    if(ui.view!=='grammars'||ui.detail!=='prepositional-phrases')prepositional.leave();
+    if(ui.view!=='grammars'||ui.detail!=='compound-sentences')compound.leave();
+    if(ui.view!=='grammars'||ui.detail!=='transition-words-phrases')transitions.leave();
     const pages={inicio:home,guia:guidePage,grammars:grammarsPage,preguntas:questionsPage,lecturas:readingsPage,verbos:verbsPage,vocabularios:vocabularies,speaking:speakingPage,listening:listeningPage,conectores:connectorsPage,numeros:numbersPage,practicas:()=>practicePage(false),test:()=>practicePage(true),sistema:settingsPage,listas:listsPage,recordatorio:remindersPage,juegos:gamesPage};
     const node=$('#view');
     if(ui.view==='grammars'&&ui.detail==='verb-tenses'){dictionary.leave();aula.leave();tenses.mount(node,ui.lesson);}
     else if(ui.view==='grammars'&&ui.detail==='passive-voice'){dictionary.leave();aula.leave();passive.mount(node,ui.lesson);}
+    else if(ui.view==='grammars'&&ui.detail==='auxiliary-verbs'){dictionary.leave();aula.leave();auxiliary.mount(node,ui.lesson);}
+    else if(ui.view==='grammars'&&ui.detail==='full-verbs'){dictionary.leave();aula.leave();fullVerbs.mount(node,ui.lesson);}
+    else if(ui.view==='grammars'&&ui.detail==='state-dynamic-verbs'){dictionary.leave();aula.leave();stateDynamic.mount(node,ui.lesson);}
+    else if(ui.view==='grammars'&&ui.detail==='prepositional-phrases'){dictionary.leave();aula.leave();prepositional.mount(node,ui.lesson);}
+    else if(ui.view==='grammars'&&ui.detail==='compound-sentences'){dictionary.leave();aula.leave();compound.mount(node,ui.lesson);}
+    else if(ui.view==='grammars'&&ui.detail==='transition-words-phrases'){dictionary.leave();aula.leave();transitions.mount(node,ui.lesson);}
     else if(ui.view==='aula'){dictionary.leave();aula.mount(node,ui.detail);}
     else if(ui.view==='diccionario'){aula.leave();dictionary.mount(node);}
     else {aula.leave();dictionary.leave();node.innerHTML=(pages[ui.view]||home)();}

@@ -77,7 +77,7 @@ La sección Grammars se organiza en ocho subsecciones:
 - Prepositional Phrases
 - Compound Sentences
 - Transition Words and Phrases
-Verb Tenses y Passive Voice ya incluyen sus lecciones; las otras seis subsecciones
+Verb Tenses, Passive Voice, Auxiliary Verbs, Full Verbs y State & Dynamic Verbs ya incluyen sus lecciones; las otras tres subsecciones
 mantienen el aviso Próximamente.
 Las lecciones anteriores siguen en Lecciones básicas disponibles,
 debajo de las tarjetas, con sus ejemplos y pronunciación.
@@ -121,6 +121,69 @@ Los contenidos están en dist/passive-voice-data.js y el índice en
 dist/passive-voice.js. Comparte la interfaz, el corrector y los estilos con
 Verb Tenses para mantener el mismo diseño. Funciona abriendo dist/index.html
 o con el servidor Node. El audio usa las voces inglesas del navegador/sistema.
+
+AUXILIARY VERBS
+Entra en Grammars > Auxiliary Verbs. Incluye 14 lecciones organizadas en:
+- Fundamentos: qué son los auxiliares y cómo funciona una cadena verbal.
+- Auxiliares principales: BE, HAVE y DO.
+- Capacidad, permiso y posibilidad: CAN & COULD; MAY & MIGHT.
+- Obligación, necesidad y consejo: MUST; SHOULD & OUGHT TO; HAVE TO & NEED TO.
+- Futuro, hipótesis y cortesía: WILL & WOULD; SHALL.
+- Avanzado: preguntas y negativas con modales, Modal Perfects y alternativas
+  como BE ABLE TO, BE ALLOWED TO y BE SUPPOSED TO.
+Cada lección sigue la misma estructura visual y didáctica de Verb Tenses y
+Passive Voice: definición, usos, estructuras, concordancia, respuestas cortas,
+claves, patrones útiles, comparación, errores frecuentes y práctica.
+Incluye ejemplos traducidos con audio normal y lento y cuatro actividades por
+lección (56 en total), con corrección y explicación.
+El índice incorpora tablas rápidas para BE/HAVE/DO y los modales principales,
+además de enlaces de repaso hacia Verb Tenses y Passive Voice.
+Los contenidos están en dist/auxiliary-verbs-data.js y el índice/controlador
+en dist/auxiliary-verbs.js. Reutiliza dist/verb-tenses.css para conservar el
+mismo diseño y comportamiento responsive.
+
+FULL VERBS
+Entra en Grammars > Full Verbs. Incluye 17 lecciones organizadas en:
+- Fundamentos: qué es un main/full verb, las cinco formas, BE/HAVE/DO como
+  verbos principales y la diferencia entre base form e infinitivo.
+- Formas del verbo: tercera persona -s, pasado regular, verbos irregulares,
+  past participle y forma -ing.
+- Objetos y complementos: verbos transitivos/intransitivos, objetos directos
+  e indirectos y linking verbs.
+- Patrones verbales: verb + to-infinitive, verb + -ing, verb + object +
+  to-infinitive y bare infinitive después de let/make/help.
+- Verbos de varias palabras: phrasal verbs, separables e inseparables.
+Cada lección sigue la misma estructura visual y didáctica de Verb Tenses,
+Passive Voice y Auxiliary Verbs: definición, usos, estructuras, concordancia,
+respuestas cortas, claves, patrones, comparación, errores frecuentes y práctica.
+Incluye ejemplos con traducción y audio normal/lento y cuatro actividades por
+lección (68 en total), con corrección y explicación.
+El índice incorpora una tabla de las cinco formas (work/go/write), una tabla
+rápida de patrones y enlaces de repaso hacia Verb Tenses y Auxiliary Verbs.
+Los contenidos están en dist/full-verbs-data.js y el índice/controlador en
+dist/full-verbs.js. Comparte dist/verb-tenses.css para conservar exactamente
+el mismo sistema visual y responsive de las subsecciones anteriores.
+
+STATE & DYNAMIC VERBS
+Entra en Grammars > State & Dynamic Verbs. Incluye 16 lecciones organizadas en:
+- Fundamentos: State vs Dynamic Verbs, Simple vs Continuous y cómo el significado
+  controla el comportamiento del verbo.
+- Familias de state verbs: pensamientos/opiniones, sentimientos/preferencias,
+  posesión/relaciones y percepción/apariencia.
+- Dynamic verbs: acciones/eventos y situaciones temporales o cambiantes.
+- Verbos con dos comportamientos: THINK, HAVE, SEE & HEAR, LOOK/FEEL/SMELL/TASTE,
+  BE y MEASURE/WEIGH.
+- Avanzado: usos flexibles y enfáticos del progressive con algunos state verbs.
+Cada lección sigue la misma estructura de Verb Tenses, Passive Voice, Auxiliary
+Verbs y Full Verbs: definición, usos, estructuras, concordancia, respuestas
+cortas, claves, pistas de contexto, comparación, errores frecuentes y práctica.
+Incluye ejemplos bilingües con audio normal/lento y cuatro actividades por lección
+(64 en total), con corrección y explicación.
+El índice incorpora tablas de contraste state/dynamic, una guía de verbos cuyo
+significado cambia y enlaces de repaso hacia Verb Tenses y Full Verbs.
+Los contenidos están en dist/state-dynamic-verbs-data.js y el índice/controlador
+en dist/state-dynamic-verbs.js. Reutiliza dist/verb-tenses.css para mantener el
+mismo sistema visual, responsive y de accesibilidad de las subsecciones anteriores.
 
 AULA VIRTUAL
 En el menú principal encontrarás Aula virtual: Profesores y Estudiantes.
@@ -242,3 +305,19 @@ El servidor del aula está en server/ y las migraciones de datos en drizzle/.
 Para pruebas de lógica: node --test tests/*.test.cjs
 Para construir el alojamiento Sites: npm ci y npm run build.
 Estas herramientas de desarrollo no son necesarias para ejecutar Node.
+
+
+GRAMMARS · ÚLTIMAS TRES SUBSECCIONES
+--------------------------------------
+Prepositional Phrases: 15 lecciones y 60 actividades.
+Archivos: dist/prepositional-phrases-data.js y dist/prepositional-phrases.js.
+
+Compound Sentences: 15 lecciones y 60 actividades.
+Archivos: dist/compound-sentences-data.js y dist/compound-sentences.js.
+
+Transition Words and Phrases: 15 lecciones y 60 actividades.
+Archivos: dist/transition-words-phrases-data.js y dist/transition-words-phrases.js.
+
+Las tres subsecciones reutilizan dist/verb-tenses.css y la misma arquitectura de
+lección: definición, usos, estructuras, ejemplos bilingües con audio normal/lento,
+reglas, comparación, errores frecuentes y cuatro prácticas autocorregibles.

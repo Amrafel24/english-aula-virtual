@@ -7,5 +7,11 @@ module.exports = [
   'dictionary.js','dictionary.css','dictionary-index.js','dictionary-license.txt',
   'verb-tenses-data.js','verb-tenses.js','verb-tenses.css',
   'passive-voice-data.js','passive-voice.js',
+  'auxiliary-verbs-data.js','auxiliary-verbs.js',
+  'full-verbs-data.js','full-verbs.js',
+  'state-dynamic-verbs-data.js','state-dynamic-verbs.js',
+  'prepositional-phrases-data.js','prepositional-phrases.js',
+  'compound-sentences-data.js','compound-sentences.js',
+  'transition-words-phrases-data.js','transition-words-phrases.js',
   ...Array.from('0123456789abcdef', key => `dictionary-pack-${key}.js`)
 ];
